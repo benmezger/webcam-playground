@@ -12,21 +12,39 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 
+import environ
+
+root = environ.Path(__file__)
+env = environ.Env(DEBUG=(bool, False))
+env.read_env()
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+# Load operating system env variables and prepare to use them
+env = environ.Env()
+
+# .env file, should load only in development environment
+env_file = os.path.join(BASE_DIR, ".env")
+if os.path.exists(env_file):
+    environ.Env.read_env(str(env_file))
+
+TEMPLATES_DIR = os.path.join(BASE_DIR, "templates")
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '01_$#@se%p5m3&3p@j@5nk362&bxi$n)jb90glibnwdumd=m9o'
+SECRET_KEY = env(
+    "DJANGO_SECRET_KEY", default="/Rr*wSLc>d\Sl#_#r,&b9&M@MT]fHC=cGc(M\6jxFb;qP[PQHV"
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env.bool("DJANGO_DEBUG", False)
+ENVIRONMENT = env.str("ENVIRONMENT", default="production")
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS", default=['*'])
 
 # Application definition
 
@@ -54,7 +72,7 @@ ROOT_URLCONF = 'app.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [TEMPLATES_DIR],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
