@@ -69,6 +69,8 @@ player.on('startRecord', function() {
 player.on('finishRecord', function() {
     // the blob object contains the recorded data that
     // can be downloaded by the user, stored on server etc.
+
+    player.addClass('vjs-waiting')
     upload(player.recordedData);
     // player.record().saveAs({'video': 'my-video-file-name.webm'});
 });
@@ -96,6 +98,7 @@ async function upload(blob) {
   });
 
   const result = await response.json();
+  player.loadingSpinner.hide();
   const canvas = document.getElementById('canvas');
   canvas.width = 600;
   canvas.height = 524;
