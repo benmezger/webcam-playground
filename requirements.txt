@@ -4,6 +4,14 @@ django-environ==0.4.5
 django-extensions==2.2.3
 psycopg2==2.8.3
 
+# Utils
+Cython==0.29.13
+numpy==1.17.3
+Pillow==6.2.0
+tensorflow==1.15.0rc2
+tensornets==0.4.1
+filetype==1.0.5
+
 # Environment
 black==19.3b0
 jedi==0.15.1
