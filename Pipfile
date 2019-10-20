@@ -1,0 +1,32 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+Django = "==2.2.6"
+django-environ = "==0.4.5"
+django-extensions = "==2.2.3"
+psycopg2 = "==2.8.3"
+Cython = "==0.29.13"
+numpy = "==1.17.3"
+Pillow = "==6.2.0"
+tensorflow = "==1.14.0"
+tensornets = "==0.4.1"
+filetype = "==1.0.5"
+gunicorn = "*"
+
+[dev-packages]
+black = "*"
+ipdb = "*"
+wakatime= "*"
+jedi = "==0.15.1"
+pyls-black = "==0.4.4"
+python-jsonrpc-server = "==0.2.0"
+python-language-server = "==0.29.1"
+
+[requires]
+python_version = "3.6"
+
+[pipenv]
+allow_prereleases = true
