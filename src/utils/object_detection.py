@@ -10,7 +10,9 @@ class ObjectDetection:
         self.image_capture = cv2.imread(image)
 
         self.inputs = tensorflow.placeholder(tensorflow.float32, [None, 416, 416, 3])
-        self.model = tensornets.YOLOv3COCO(self.inputs, tensornets.Darknet19)
+        self.model = tensornets.YOLOv3COCO(
+            self.inputs, tensornets.Darknet19, reuse=tensorflow.AUTO_REUSE
+        )
 
         self.classes = classes
         if not bool(classes):
