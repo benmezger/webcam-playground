@@ -30,11 +30,23 @@ var options = {
       }
 };
 
+function clearphoto() {
+  var context = canvas.getContext('2d');
+  context.fillStyle = "#FF9500";
+  context.fillRect(0, 0, canvas.width, canvas.height);
+
+  var data = canvas.toDataURL('image/png');
+  photo.setAttribute('src', data);
+}
+
 var player = videojs('webcam', options, function() {
     // print version information at startup
     var msg = 'Using video.js ' + videojs.VERSION +
         ' with videojs-record ' + videojs.getPluginVersion('record');
     videojs.log(msg);
+  canvas = document.getElementById('canvas');
+  clearphoto();
+
 });
 
 player.on('deviceError', function() {
@@ -79,5 +91,10 @@ async function upload(blob) {
   });
 
   const result = await response.json();
-  console.log(JSON.stringify(result));
+  var canvas = document.getElementById('canvas');
+  canvas.width = 600;
+  canvas.height = 524;
+
+  photo = document.getElementById('photo');
+  photo.setAttribute('src', result.image);
 }
