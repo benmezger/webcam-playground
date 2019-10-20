@@ -1,20 +1,26 @@
+function isCookiesEnabled() {
+    return document.cookie && document.cookie !== '';
+}
+
 function getCookie(name) {
-    var cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-        var cookies = document.cookie.split(';');
-        for (var i = 0; i < cookies.length; i++) {
-            var cookie = cookies[i].trim();
-            // Does this cookie string begin with the name we want?
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+    let cookieValue;
+
+    if (isCookiesEnabled()) {
+        const cookies = document.cookie.split(';');
+        
+        cookies.map(function (cookie) {
+            const parsedCookie = cookie.trim();
+            
+            if (parsedCookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(parsedCookie.substring(name.length + 1));
                 break;
             }
-        }
+        });
     }
     return cookieValue;
 }
 
-var options = {
+const options = {
     controls: true,
     width: 320,
     height: 240,
@@ -31,15 +37,15 @@ var options = {
 };
 
 function clearphoto() {
-  var context = canvas.getContext('2d');
+  const context = canvas.getContext('2d');
   context.fillStyle = "#FF9500";
   context.fillRect(0, 0, canvas.width, canvas.height);
 
-  var data = canvas.toDataURL('image/png');
+  const data = canvas.toDataURL('image/png');
   photo.setAttribute('src', data);
 }
 
-var player = videojs('webcam', options, function() {
+const player = videojs('webcam', options, function() {
     // print version information at startup
     var msg = 'Using video.js ' + videojs.VERSION +
         ' with videojs-record ' + videojs.getPluginVersion('record');
@@ -68,10 +74,9 @@ player.on('finishRecord', function() {
 });
 
 function b64toBlob(dataURI) {
-
-    var byteString = atob(dataURI.split(',')[1]);
-    var ab = new ArrayBuffer(byteString.length);
-    var ia = new Uint8Array(ab);
+    const byteString = atob(dataURI.split(',')[1]);
+    const ab = new ArrayBuffer(byteString.length);
+    const ia = new Uint8Array(ab);
 
     for (var i = 0; i < byteString.length; i++) {
         ia[i] = byteString.charCodeAt(i);
@@ -80,8 +85,8 @@ function b64toBlob(dataURI) {
 }
 
 async function upload(blob) {
-  var serverUrl = '/';
-  var formData = new FormData();
+  const serverUrl = '/';
+  const formData = new FormData();
   formData.append('image', b64toBlob(blob), "image.png");
 
   const response = await fetch(serverUrl, {
@@ -91,7 +96,7 @@ async function upload(blob) {
   });
 
   const result = await response.json();
-  var canvas = document.getElementById('canvas');
+  const canvas = document.getElementById('canvas');
   canvas.width = 600;
   canvas.height = 524;
 
