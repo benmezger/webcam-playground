@@ -4,14 +4,14 @@ from django.core.validators import FileExtensionValidator
 import filetype
 
 
-class VideoForm(forms.Form):
-    video = forms.FileField(validators=(FileExtensionValidator,))
+class ImageForm(forms.Form):
+    image = forms.ImageField()
 
-    def clean_video(self):
-        data = self.cleaned_data['video']
+    def clean_image(self):
+        data = self.cleaned_data['image']
         kind = filetype.guess(data.read())
         data.seek(0)
 
         if kind is None:
             return False
-        return kind.mime == 'video/webm'
+        return kind.mime == 'image/png'

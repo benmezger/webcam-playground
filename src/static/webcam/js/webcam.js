@@ -55,19 +55,29 @@ player.on('finishRecord', function() {
     // player.record().saveAs({'video': 'my-video-file-name.webm'});
 });
 
-function upload(blob) {
+function b64toBlob(dataURI) {
+
+    var byteString = atob(dataURI.split(',')[1]);
+    var ab = new ArrayBuffer(byteString.length);
+    var ia = new Uint8Array(ab);
+
+    for (var i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i);
+    }
+    return new Blob([ab], { type: 'image/jpeg' });
+}
+
+async function upload(blob) {
   var serverUrl = '/';
   var formData = new FormData();
-  formData.append('image', blob);
+  formData.append('image', b64toBlob(blob), "image.png");
 
-  fetch(serverUrl, {
+  const response = await fetch(serverUrl, {
     method: 'POST',
-    headers: {'X-CSRFToken': getCookie('csrftoken'),
-              "Content-Type": "image/png"},
+    headers: {'X-CSRFToken': getCookie('csrftoken')},
     body: formData
-  }).then(
-      success => console.log('recording upload complete.')
-  ).catch(
-      error => console.error('an upload error occurred!')
-  );
+  });
+
+  const result = await response.json();
+  console.log(JSON.stringify(result));
 }
