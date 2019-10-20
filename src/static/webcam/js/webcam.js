@@ -21,8 +21,9 @@ var options = {
     fluid: true,
     plugins: {
         record: {
-            audio: true,
-            video: true,
+            audio: false,
+            image: true,
+            video: false,
             maxLength: 10,
             debug: true
         }
@@ -57,11 +58,12 @@ player.on('finishRecord', function() {
 function upload(blob) {
   var serverUrl = '/';
   var formData = new FormData();
-  formData.append('video', blob, blob.name);
+  formData.append('image', blob);
 
   fetch(serverUrl, {
     method: 'POST',
-    headers: {'X-CSRFToken': getCookie('csrftoken')},
+    headers: {'X-CSRFToken': getCookie('csrftoken'),
+              "Content-Type": "image/png"},
     body: formData
   }).then(
       success => console.log('recording upload complete.')
