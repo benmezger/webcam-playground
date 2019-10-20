@@ -28,7 +28,7 @@ python-jsonrpc-server = "==0.2.0"
 python-language-server = "==0.29.1"
 
 [requires]
-python_version = "3.6"
+python_version = "3.7"
 
 [pipenv]
 allow_prereleases = true
