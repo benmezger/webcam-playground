@@ -1,0 +1,37 @@
+{% extends "webcam/base.html" %}
+{% load staticfiles %}
+
+{% block extrahead %}
+  {{ block.super }}
+
+  <link href="//cdnjs.cloudflare.com/ajax/libs/videojs-record/3.8.0/css/videojs.record.css" rel="stylesheet">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/video.js/7.6.5/video-js.min.css" rel="stylesheet">
+
+  <script src="//vjs.zencdn.net/7.3.0/video.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/RecordRTC/5.5.8/RecordRTC.min.js"></script>
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/7.3.0/adapter.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/videojs-record/3.8.0/videojs.record.min.js"></script>
+
+{% endblock %}
+
+{% block content %}
+<h1>Object detection</h1>
+
+<video
+  id="webcam"
+  playsinline
+  class="video-js"
+  data-setup='{}'>
+  <p class="vjs-no-js">
+    To view this video please enable JavaScript, and consider upgrading to a
+    web browser that
+    <a href="https://videojs.com/html5-video-support/" target="_blank">
+      supports HTML5 video
+    </a>
+  </p>
+</video>
+
+<script src="{% static 'webcam/js/webcam.js' %}"></script>
+
+{% endblock %}
