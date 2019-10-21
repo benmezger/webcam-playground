@@ -10,6 +10,7 @@ Pillow==6.2.0
 tensorflow==1.15.0rc2
 tensornets==0.4.1
 filetype==1.0.5
+opencv-python==4.1.1.26
 
 # Environment
 black==19.3b0
