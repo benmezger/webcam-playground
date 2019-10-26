@@ -3,22 +3,21 @@ function isCookiesEnabled() {
 }
 
 function getCookie(name) {
-    let cookieValue;
-
-    if (isCookiesEnabled()) {
-        const cookies = document.cookie.split(';');
-        
-        cookies.map(function (cookie) {
-            const parsedCookie = cookie.trim();
-            
-            if (parsedCookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(parsedCookie.substring(name.length + 1));
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
                 break;
             }
-        });
+        }
     }
     return cookieValue;
 }
+
 
 const options = {
     controls: true,
