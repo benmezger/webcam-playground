@@ -106,3 +106,20 @@ async function upload(blob) {
   photo = document.getElementById('photo');
   photo.setAttribute('src', result.image);
 }
+
+$('#image-form').submit(function(event) {
+  const formData = new FormData();
+  const file = document.getElementById('id_image').files[0];
+  formData.append('image', file, file.name);
+
+  $.ajax({
+    type        : 'POST', // define the type of HTTP verb we want to use (POST for our form)
+    url         : '/', // the url where we want to POST
+    data        : formData, // our data object
+    dataType    : 'json', // what type of data do we expect back from the server
+    encode          : true
+  }).done(function(data) {
+    console.log(data);
+  });
+  event.preventDefault();
+});

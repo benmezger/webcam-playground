@@ -13,6 +13,11 @@
   <script src="//cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/7.3.0/adapter.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/videojs-record/3.8.0/videojs.record.min.js"></script>
 
+  <script
+    src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+    crossorigin="anonymous">
+  </script>
 {% endblock %}
 
 {% block content %}
@@ -31,6 +36,15 @@
     </a>
   </p>
 </video>
+<hr>
+
+<p>Or upload an image.. <p>
+<form method="post" enctype="multipart/form-data" id="image-form">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <input type="submit" value="Upload image">
+</form>
+
 <hr>
 
 <canvas id="canvas" style="display:none" width=600 height=425></canvas>
