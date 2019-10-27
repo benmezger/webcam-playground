@@ -39,7 +39,7 @@
 <hr>
 
 <p>Or upload an image.. <p>
-<form method="post" enctype="multipart/form-data" id="image-form">
+<form method="post" enctype="multipart/form-data" accept="image/png" id="image-form">
   {% csrf_token %}
   {{ form.as_p }}
   <input type="submit" value="Upload image">

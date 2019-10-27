@@ -70,8 +70,12 @@ player.on('finishRecord', function() {
     // can be downloaded by the user, stored on server etc.
 
     player.addClass('vjs-waiting')
-    upload(player.recordedData);
-    // player.record().saveAs({'video': 'my-video-file-name.webm'});
+
+  const formData = new FormData();
+  formData.append('image', b64toBlob(player.recordedData), "image.png");
+  upload_image(formData, true);
+  player.loadingSpinner.show();
+  // player.record().saveAs({'video': 'my-video-file-name.webm'});
 });
 
 function b64toBlob(dataURI) {
@@ -85,11 +89,8 @@ function b64toBlob(dataURI) {
     return new Blob([ab], { type: 'image/jpeg' });
 }
 
-async function upload(blob) {
+async function upload_image(formData, isCamera){
   const serverUrl = '/';
-  const formData = new FormData();
-  formData.append('image', b64toBlob(blob), "image.png");
-
   const response = await fetch(serverUrl, {
     method: 'POST',
     headers: {'X-CSRFToken': getCookie('csrftoken')},
@@ -97,28 +98,22 @@ async function upload(blob) {
   });
 
   const result = await response.json();
-  player.loadingSpinner.hide();
   const canvas = document.getElementById('canvas');
   canvas.width = 600;
   canvas.height = 524;
 
   photo = document.getElementById('photo');
   photo.setAttribute('src', result.image);
+  if (isCamera){
+    player.loadingSpinner.hide();
+  }
 }
 
 $('#image-form').submit(function(event) {
+  event.preventDefault();
   const formData = new FormData();
   const file = document.getElementById('id_image').files[0];
   formData.append('image', file, file.name);
 
-  $.ajax({
-    type        : 'POST', // define the type of HTTP verb we want to use (POST for our form)
-    url         : '/', // the url where we want to POST
-    data        : formData, // our data object
-    dataType    : 'json', // what type of data do we expect back from the server
-    encode          : true
-  }).done(function(data) {
-    console.log(data);
-  });
-  event.preventDefault();
+  upload_image(formData, false);
 });
