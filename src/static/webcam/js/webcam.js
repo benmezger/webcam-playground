@@ -104,6 +104,16 @@ async function upload_image(formData, isCamera){
 
   photo = document.getElementById('photo');
   photo.setAttribute('src', result.image);
+
+  var table = new Tabulator("#tensor-info", {
+    height: 50, // set height of table (in CSS or here), this enables the Virtual DOM and improves render speed dramatically (can be any valid css height value)
+    layout: "fitColumns", //fit columns to width of table (optional)
+    autoColumns: true,
+    columns: [{title: "Class"}, {title: "Value"}],
+  });
+
+  table.setData([result.guesses]);
+
   if (isCamera){
     player.loadingSpinner.hide();
   }

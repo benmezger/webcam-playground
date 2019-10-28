@@ -16,9 +16,18 @@ class ObjectDetection:
 
         self.classes = classes
         if not bool(classes):
-            self.classes = {"0": "person", "15": "cat", "67": "cell phone"}
+            self.classes = {
+                0: "person",
+                15: "cat",
+                64: "laptop",
+                65: "mouse",
+                67: "cell phone",
+                74: "book",
+            }
 
     def run_inference(self):
+
+        guesses = {k: [] for k in self.classes.values()}
 
         with tensorflow.Session() as sess:
             np_load_old = numpy.load
@@ -41,16 +50,15 @@ class ObjectDetection:
 
             for j in self.classes.keys():
 
-                if j in self.classes:
-                    lab = self.classes[str(j)]
-
-                j = int(j)
-
+                lab = self.classes[j]
                 if len(boxes) > 0:
                     for i in range(len(boxes[j])):
-                        box = boxes[j][i]
-                        if boxes[j][i][4] >= 0.40:
 
+                        box = boxes[j][i]
+
+                        guesses[lab].append(box[4])
+
+                        if box[4] >= 0.40:
                             cv2.rectangle(
                                 img, (box[0], box[1]), (box[2], box[3]), (0, 255, 0), 1
                             )
@@ -69,7 +77,8 @@ class ObjectDetection:
             # cv2.imshow("image", img)
             # if cv2.waitKey(0) & 0xFF == ord("q"):
             #     break
-        return out_file
+        guesses['file'] = out_file
+        return guesses
 
 
 if __name__ == "__main__":
